@@ -4,12 +4,13 @@ source 'https://rubygems.org'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
-# gem "rails"
-gem 'discordrb', git: 'https://github.com/shardlab/discordrb.git', branch: 'main'
+gem 'activerecord'
+# gem 'discordrb', git: 'https://github.com/shardlab/discordrb.git', branch: 'main'
+gem 'discordrb'
 gem 'rmagick'
 gem 'rubocop', require: false
-gem 'sorbet', require: false
+gem 'sorbet', group: :development
+gem 'sorbet-runtime'
+gem 'sqlite3'
+gem 'tapioca', require: false, group: :development
 gem 'yaml'
-# gem 'yt_dlp'
-# gem 'mathematical', :git => 'https://github.com/gjtorikian/mathematical.git', :branch => 'main', submodules: true
-# gem 'mathematical', :path => "../mathematical", submodules: true
