@@ -2,3 +2,11 @@ AllCops:
   Exclude:
     - 'sorbet/**/*'
     - 'tmp/*'
+Style/IfUnlessModifier:
+  Enabled: false
+Metrics/BlockLength:
+  Max: 50
+Layout/LineLength:
+  Max: 150
+Metrics/ModuleLength:
+  Max: 200
