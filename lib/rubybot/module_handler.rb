@@ -18,15 +18,23 @@ module RubyBot
     def self.load_module(path, mod)
       load "#{path}/#{mod}"
       RubyBot.logger.info("Loading module: #{mod}")
-      RubyBot.bot.include! Utils.constantinize(mod.split('.')[0])
+      RubyBot.bot.include! Utils.constantinize('RubyBot::Modules', mod.split('.')[0])
     end
 
     def self.list_available_modules
       Dir.entries(MODULES_DIR).select { |f| File.file? File.join(MODULES_DIR, f) }
     end
 
-    RubyBot.bot.command(:list_modules, description: 'List all loaded modules') do |event|
+    RubyBot.bot.command(:list_modules, description: 'List all available modules') do |event|
       event.respond list_available_modules.to_s
+    end
+
+    RubyBot.bot.command(:list_loaded_modules, description: 'List all loaded modules') do |event|
+      event.respond RubyBot::Modules.constants.sort.to_s
+    end
+
+    RubyBot.bot.command(:unload_module, description: 'Unloads a loaded module') do |event, mod|
+      event.respond "Unloaded module: #{RubyBot::Modules.send(:remove_const, mod)}"
     end
 
     RubyBot.bot.command(:reload_module, description: 'Reloads a module') do |event, mod|

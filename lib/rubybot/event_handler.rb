@@ -18,7 +18,7 @@ module RubyBot
     def self.load_module(path, mod)
       load "#{path}/#{mod}"
       RubyBot.logger.info("Loading module: #{mod}")
-      RubyBot.bot.include! Utils.constantinize(mod.split('.')[0])
+      RubyBot.bot.include! Utils.constantinize('RubyBot::Events', mod.split('.')[0])
     end
 
     def self.list_available_modules
