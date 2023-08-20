@@ -92,6 +92,60 @@ module RubyBot
 
         RubyBot::DB.cache_message(message_id, channel_id, server_id, author_id, timestamp, content, attachments)
       end
+
+      user_ban do |event|
+        server_id = event.server.id
+
+        log_channels = RubyBot::DB.find_log_channels(server_id).map(&:channel_id)
+
+        # Check if a log channel is defined, break if not
+        next if log_channels.nil?
+
+        log_channels.each do |channel|
+          event.bot.channel(channel).send_embed do |embed|
+            embed.title = 'User banned'
+            embed.color = '#ff0000'
+            embed.add_field name: 'User', value: event.user.name, inline: true
+            embed.add_field name: 'User ID', value: event.user.id, inline: true
+          end
+        end
+      end
+
+      member_leave do |event|
+        server_id = event.server.id
+
+        log_channels = RubyBot::DB.find_log_channels(server_id).map(&:channel_id)
+
+        # Check if a log channel is defined, break if not
+        next if log_channels.nil?
+
+        log_channels.each do |channel|
+          event.bot.channel(channel).send_embed do |embed|
+            embed.title = 'User left'
+            embed.color = '#fc8803'
+            embed.add_field name: 'User', value: event.user.name, inline: true
+            embed.add_field name: 'User ID', value: event.user.id, inline: true
+          end
+        end
+      end
+
+      member_join do |event|
+        server_id = event.server.id
+
+        log_channels = RubyBot::DB.find_log_channels(server_id).map(&:channel_id)
+
+        # Check if a log channel is defined, break if not
+        next if log_channels.nil?
+
+        log_channels.each do |channel|
+          event.bot.channel(channel).send_embed do |embed|
+            embed.title = 'User joined'
+            embed.color = '#00ff00'
+            embed.add_field name: 'User', value: event.user.name, inline: true
+            embed.add_field name: 'User ID', value: event.user.id, inline: true
+          end
+        end
+      end
     end
   end
 end
