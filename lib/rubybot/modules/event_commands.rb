@@ -58,7 +58,6 @@ module RubyBot
         end
       end
 
-      # rubocop:disable Layout/LineLength
       command(:remove_log_blacklist_channels, description: 'Removes log channels configured for this server') do |event, *channels|
         channels.each do |channel|
           RubyBot::DB.remove_log_blacklist_channel(event.server.id, channel)
@@ -68,7 +67,6 @@ module RubyBot
           embed.description = 'Removed channels'
         end
       end
-      # rubocop:enable Layout/LineLength
     end
   end
 end
