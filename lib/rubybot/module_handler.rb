@@ -34,6 +34,10 @@ module RubyBot
     end
 
     RubyBot.bot.command(:unload_module, description: 'Unloads a loaded module') do |event, mod|
+      # Removing all defined commands before removing the module itself
+      RubyBot::Modules.const_get(mod).commands.each_key do |command|
+        RubyBot.bot.remove_command(command)
+      end
       event.respond "Unloaded module: #{RubyBot::Modules.send(:remove_const, mod)}"
     end
 
