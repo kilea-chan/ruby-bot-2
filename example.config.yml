@@ -1,0 +1,12 @@
+---
+token: myAwesomeToken
+client_id: myClientId
+prefix: r!
+ignore_bots: yes
+advanced_functionality: true
+# See ActiveRecord documentation for configuration
+database:
+  # Supported are: mysql, postgres, sqlite3 and trilogy
+  adapter: 'sqlite3'
+  # Database to connect to
+  database: 'rubybot.db'
