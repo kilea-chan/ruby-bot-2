@@ -106,7 +106,7 @@ class MIME::Type
   # Merge the +extensions+ provided into this MIME::Type. The extensions added
   # will be merged uniquely.
   #
-  # source://mime-types//lib/mime/type.rb#287
+  # source://mime-types//lib/mime/type.rb#313
   def add_extensions(*extensions); end
 
   # MIME types can be specified to be sent across a network in particular
@@ -115,7 +115,7 @@ class MIME::Type
   #
   # @return [Boolean]
   #
-  # source://mime-types//lib/mime/type.rb#441
+  # source://mime-types//lib/mime/type.rb#467
   def ascii?; end
 
   # MIME types can be specified to be sent across a network in particular
@@ -124,7 +124,7 @@ class MIME::Type
   #
   # @return [Boolean]
   #
-  # source://mime-types//lib/mime/type.rb#434
+  # source://mime-types//lib/mime/type.rb#460
   def binary?; end
 
   # Returns +true+ if the MIME::Type specifies an extension list,
@@ -132,7 +132,7 @@ class MIME::Type
   #
   # @return [Boolean]
   #
-  # source://mime-types//lib/mime/type.rb#451
+  # source://mime-types//lib/mime/type.rb#477
   def complete?; end
 
   # Returns the whole MIME content-type string.
@@ -145,22 +145,22 @@ class MIME::Type
   #   x-chemical/x-pdb  => x-chemical/x-pdb
   #   audio/QCELP       => audio/QCELP
   #
-  # source://mime-types//lib/mime/type.rb#236
+  # source://mime-types//lib/mime/type.rb#262
   def content_type; end
 
   # Returns the default encoding for the MIME::Type based on the media type.
   #
-  # source://mime-types//lib/mime/type.rb#340
+  # source://mime-types//lib/mime/type.rb#366
   def default_encoding; end
 
   # The documentation for this MIME::Type.
   #
-  # source://mime-types//lib/mime/type.rb#364
+  # source://mime-types//lib/mime/type.rb#390
   def docs; end
 
   # The documentation for this MIME::Type.
   #
-  # source://mime-types//lib/mime/type.rb#364
+  # source://mime-types//lib/mime/type.rb#390
   def docs=(_arg0); end
 
   # Populates the +coder+ with attributes about this record for
@@ -169,15 +169,15 @@ class MIME::Type
   #
   # This method should be considered a private implementation detail.
   #
-  # source://mime-types//lib/mime/type.rb#485
+  # source://mime-types//lib/mime/type.rb#511
   def encode_with(coder); end
 
   # Returns the value of attribute encoding.
   #
-  # source://mime-types//lib/mime/type.rb#326
+  # source://mime-types//lib/mime/type.rb#352
   def encoding; end
 
-  # source://mime-types//lib/mime/type.rb#329
+  # source://mime-types//lib/mime/type.rb#355
   def encoding=(enc); end
 
   # Returns +true+ if the +other+ object is a MIME::Type and the content types
@@ -194,10 +194,10 @@ class MIME::Type
   #
   # :attr_accessor: extensions
   #
-  # source://mime-types//lib/mime/type.rb#275
+  # source://mime-types//lib/mime/type.rb#301
   def extensions; end
 
-  # source://mime-types//lib/mime/type.rb#280
+  # source://mime-types//lib/mime/type.rb#306
   def extensions=(value); end
 
   # A friendly short description for this MIME::Type.
@@ -206,8 +206,34 @@ class MIME::Type
   #   text_plain.friendly         # => "Text File"
   #   text_plain.friendly('en')   # => "Text File"
   #
-  # source://mime-types//lib/mime/type.rb#371
+  # source://mime-types//lib/mime/type.rb#397
   def friendly(lang = T.unsafe(nil)); end
+
+  # Returns a hash based on the #simplified value.
+  #
+  # This maintains the invariant that two #eql? instances must have the same
+  # #hash (although having the same #hash does *not* imply that the objects are
+  # #eql?).
+  #
+  # To see why, suppose a MIME::Type instance +a+ is compared to another object
+  # +b+, and that <code>a.eql?(b)</code> is true. By the definition of #eql?,
+  # we know the following:
+  #
+  # 1. +b+ is a MIME::Type instance itself.
+  # 2. <code>a == b</code> is true.
+  #
+  # Due to the first point, we know that +b+ should respond to the #simplified
+  # method. Thus, per the definition of #<=>, we know that +a.simplified+ must
+  # be equal to +b.simplified+, as compared by the <=> method corresponding to
+  # +a.simplified+.
+  #
+  # Presumably, if <code>a.simplified <=> b.simplified</code> is +0+, then
+  # +a.simplified+ has the same hash as +b.simplified+. So we assume it's
+  # suitable for #hash to delegate to #simplified in service of the #eql?
+  # invariant.
+  #
+  # source://mime-types//lib/mime/type.rb#249
+  def hash; end
 
   # A key suitable for use as a lookup key for translations, such as with
   # the I18n library.
@@ -219,7 +245,7 @@ class MIME::Type
   #    x_msword.i18n_key   # => "application.word"
   #      # from application/x-msword
   #
-  # source://mime-types//lib/mime/type.rb#396
+  # source://mime-types//lib/mime/type.rb#422
   def i18n_key; end
 
   # Initialize an empty object from +coder+, which must contain the
@@ -227,10 +253,10 @@ class MIME::Type
   #
   # This method should be considered a private implementation detail.
   #
-  # source://mime-types//lib/mime/type.rb#514
+  # source://mime-types//lib/mime/type.rb#540
   def init_with(coder); end
 
-  # source://mime-types//lib/mime/type.rb#530
+  # source://mime-types//lib/mime/type.rb#556
   def inspect; end
 
   # Indicates that a MIME type is like another type. This differs from
@@ -247,28 +273,28 @@ class MIME::Type
   #   x-chemical/x-pdb  => x-chemical
   #   audio/QCELP       => audio
   #
-  # source://mime-types//lib/mime/type.rb#249
+  # source://mime-types//lib/mime/type.rb#275
   def media_type; end
 
   # Returns +true+ if the media type is obsolete.
   #
-  # source://mime-types//lib/mime/type.rb#360
+  # source://mime-types//lib/mime/type.rb#386
   def obsolete; end
 
   # Returns +true+ if the media type is obsolete.
   #
-  # source://mime-types//lib/mime/type.rb#360
+  # source://mime-types//lib/mime/type.rb#386
   def obsolete=(_arg0); end
 
   # Returns +true+ if the media type is obsolete.
   #
-  # source://mime-types//lib/mime/type.rb#360
+  # source://mime-types//lib/mime/type.rb#386
   def obsolete?; end
 
-  # source://mime-types//lib/mime/type.rb#301
+  # source://mime-types//lib/mime/type.rb#327
   def preferred_extension; end
 
-  # source://mime-types//lib/mime/type.rb#306
+  # source://mime-types//lib/mime/type.rb#332
   def preferred_extension=(value); end
 
   # Compares the +other+ MIME::Type based on how reliable it is before doing a
@@ -293,19 +319,19 @@ class MIME::Type
 
   # Indicates whether the MIME type's registration with IANA is provisional.
   #
-  # source://mime-types//lib/mime/type.rb#424
+  # source://mime-types//lib/mime/type.rb#450
   def provisional; end
 
   # Indicates whether the MIME type's registration with IANA is provisional.
   #
-  # source://mime-types//lib/mime/type.rb#424
+  # source://mime-types//lib/mime/type.rb#450
   def provisional=(_arg0); end
 
   # Indicates whether the MIME type's registration with IANA is provisional.
   #
   # @return [Boolean]
   #
-  # source://mime-types//lib/mime/type.rb#427
+  # source://mime-types//lib/mime/type.rb#453
   def provisional?; end
 
   # Returns the media type of the unmodified MIME::Type.
@@ -314,7 +340,7 @@ class MIME::Type
   #   x-chemical/x-pdb  => x-chemical
   #   audio/QCELP       => audio
   #
-  # source://mime-types//lib/mime/type.rb#255
+  # source://mime-types//lib/mime/type.rb#281
   def raw_media_type; end
 
   # Returns the media type of the unmodified MIME::Type.
@@ -323,37 +349,37 @@ class MIME::Type
   #   x-chemical/x-pdb  => x-pdb
   #   audio/QCELP       => qcelp
   #
-  # source://mime-types//lib/mime/type.rb#267
+  # source://mime-types//lib/mime/type.rb#293
   def raw_sub_type; end
 
   # Indicates whether the MIME type has been registered with IANA.
   #
-  # source://mime-types//lib/mime/type.rb#420
+  # source://mime-types//lib/mime/type.rb#446
   def registered; end
 
   # Indicates whether the MIME type has been registered with IANA.
   #
-  # source://mime-types//lib/mime/type.rb#420
+  # source://mime-types//lib/mime/type.rb#446
   def registered=(_arg0); end
 
   # Indicates whether the MIME type has been registered with IANA.
   #
-  # source://mime-types//lib/mime/type.rb#420
+  # source://mime-types//lib/mime/type.rb#446
   def registered?; end
 
   # Indicateswhether the MIME type is declared as a signature type.
   #
-  # source://mime-types//lib/mime/type.rb#446
+  # source://mime-types//lib/mime/type.rb#472
   def signature; end
 
   # Indicateswhether the MIME type is declared as a signature type.
   #
-  # source://mime-types//lib/mime/type.rb#446
+  # source://mime-types//lib/mime/type.rb#472
   def signature=(_arg0); end
 
   # Indicateswhether the MIME type is declared as a signature type.
   #
-  # source://mime-types//lib/mime/type.rb#446
+  # source://mime-types//lib/mime/type.rb#472
   def signature?; end
 
   # A simplified form of the MIME content-type string, suitable for
@@ -363,7 +389,7 @@ class MIME::Type
   #   x-chemical/x-pdb  => x-chemical/x-pdb
   #   audio/QCELP       => audio/qcelp
   #
-  # source://mime-types//lib/mime/type.rb#243
+  # source://mime-types//lib/mime/type.rb#269
   def simplified; end
 
   # Returns the sub-type of the simplified MIME::Type.
@@ -372,23 +398,23 @@ class MIME::Type
   #   x-chemical/x-pdb  => pdb
   #   audio/QCELP       => QCELP
   #
-  # source://mime-types//lib/mime/type.rb#261
+  # source://mime-types//lib/mime/type.rb#287
   def sub_type; end
 
   # Converts the MIME::Type to a hash. The output of this method can also be
   # used to initialize a MIME::Type.
   #
-  # source://mime-types//lib/mime/type.rb#476
+  # source://mime-types//lib/mime/type.rb#502
   def to_h; end
 
   # Converts the MIME::Type to a JSON string.
   #
-  # source://mime-types//lib/mime/type.rb#469
+  # source://mime-types//lib/mime/type.rb#495
   def to_json(*args); end
 
   # Returns the MIME::Type as a string.
   #
-  # source://mime-types//lib/mime/type.rb#456
+  # source://mime-types//lib/mime/type.rb#482
   def to_s; end
 
   # Returns the MIME::Type as a string for implicit conversions. This allows
@@ -396,72 +422,72 @@ class MIME::Type
   #
   #   'text/plain' == MIME::Type.new('text/plain')
   #
-  # source://mime-types//lib/mime/type.rb#464
+  # source://mime-types//lib/mime/type.rb#490
   def to_str; end
 
-  # source://mime-types//lib/mime/type.rb#352
+  # source://mime-types//lib/mime/type.rb#378
   def use_instead; end
 
   # Sets the attribute use_instead
   #
   # @param value the value to set the attribute use_instead to.
   #
-  # source://mime-types//lib/mime/type.rb#357
+  # source://mime-types//lib/mime/type.rb#383
   def use_instead=(_arg0); end
 
   # The decoded cross-reference URL list for this MIME::Type.
   #
-  # source://mime-types//lib/mime/type.rb#412
+  # source://mime-types//lib/mime/type.rb#438
   def xref_urls; end
 
   # Returns the value of attribute xrefs.
   #
-  # source://mime-types//lib/mime/type.rb#404
+  # source://mime-types//lib/mime/type.rb#430
   def xrefs; end
 
-  # source://mime-types//lib/mime/type.rb#407
+  # source://mime-types//lib/mime/type.rb#433
   def xrefs=(xrefs); end
 
   private
 
-  # source://mime-types//lib/mime/type.rb#583
+  # source://mime-types//lib/mime/type.rb#609
   def content_type=(type_string); end
 
   # MRI 2.2 and older don't have a method for string interning,
   # so we simply freeze them for keeping a similar interface
   #
-  # source://mime-types//lib/mime/type.rb#600
+  # source://mime-types//lib/mime/type.rb#626
   def intern_string(string); end
 
-  # source://mime-types//lib/mime/type.rb#611
+  # source://mime-types//lib/mime/type.rb#637
   def xref_map(values, helper); end
 
-  # source://mime-types//lib/mime/type.rb#619
+  # source://mime-types//lib/mime/type.rb#645
   def xref_url_for_draft(value); end
 
-  # source://mime-types//lib/mime/type.rb#627
+  # source://mime-types//lib/mime/type.rb#653
   def xref_url_for_person(value); end
 
-  # source://mime-types//lib/mime/type.rb#615
+  # source://mime-types//lib/mime/type.rb#641
   def xref_url_for_rfc(value); end
 
-  # source://mime-types//lib/mime/type.rb#623
+  # source://mime-types//lib/mime/type.rb#649
   def xref_url_for_rfc_errata(value); end
 
-  # source://mime-types//lib/mime/type.rb#631
+  # source://mime-types//lib/mime/type.rb#657
   def xref_url_for_template(value); end
 
   class << self
     # Converts a provided +content_type+ into a translation key suitable for
     # use with the I18n library.
     #
-    # source://mime-types//lib/mime/type.rb#550
+    # source://mime-types//lib/mime/type.rb#576
     def i18n_key(content_type); end
 
     # Return a +MatchData+ object of the +content_type+ against pattern of
     # media types.
     #
-    # source://mime-types//lib/mime/type.rb#558
+    # source://mime-types//lib/mime/type.rb#584
     def match(content_type); end
 
     # MIME media types are case-insensitive, but are typically presented in a
@@ -472,12 +498,12 @@ class MIME::Type
     # prefix (<tt>x-</tt>). This is no longer default behaviour, but may be
     # provided by providing a truth value to +remove_x_prefix+.
     #
-    # source://mime-types//lib/mime/type.rb#544
+    # source://mime-types//lib/mime/type.rb#570
     def simplified(content_type, remove_x_prefix: T.unsafe(nil)); end
 
     private
 
-    # source://mime-types//lib/mime/type.rb#569
+    # source://mime-types//lib/mime/type.rb#595
     def simplify_matchdata(matchdata, remove_x = T.unsafe(nil), joiner: T.unsafe(nil)); end
   end
 end

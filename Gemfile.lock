@@ -92,6 +92,7 @@ GEM
     sorbet (0.5.11066)
       sorbet-static (= 0.5.11066)
     sorbet-runtime (0.5.11066)
+    sorbet-static (0.5.11066-universal-darwin)
     sorbet-static (0.5.11066-x86_64-linux)
     sorbet-static-and-runtime (0.5.11066)
       sorbet (= 0.5.11066)
@@ -101,6 +102,7 @@ GEM
       sorbet-static-and-runtime (>= 0.5.10187)
       syntax_tree (>= 6.1.1)
       thor (>= 0.19.2)
+    sqlite3 (1.6.7-arm64-darwin)
     sqlite3 (1.6.7-x86_64-linux)
     strscan (3.1.0)
     syntax_tree (6.2.0)
@@ -134,6 +136,7 @@ GEM
     yarp (0.13.0)
 
 PLATFORMS
+  arm64-darwin-24
   x86_64-linux
 
 DEPENDENCIES

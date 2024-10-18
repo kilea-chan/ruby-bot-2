@@ -7,16 +7,16 @@
 # source://websocket-client-simple//lib/websocket-client-simple/version.rb#1
 module WebSocket
   class << self
-    # source://websocket/1.2.9/lib/websocket.rb#20
+    # source://websocket/1.2.10/lib/websocket.rb#20
     def max_frame_size; end
 
-    # source://websocket/1.2.9/lib/websocket.rb#25
+    # source://websocket/1.2.10/lib/websocket.rb#25
     def max_frame_size=(val); end
 
-    # source://websocket/1.2.9/lib/websocket.rb#31
+    # source://websocket/1.2.10/lib/websocket.rb#31
     def should_raise; end
 
-    # source://websocket/1.2.9/lib/websocket.rb#36
+    # source://websocket/1.2.10/lib/websocket.rb#36
     def should_raise=(val); end
   end
 end
@@ -39,12 +39,12 @@ class WebSocket::Client::Simple::Client
   include ::EventEmitter
   include ::EventEmitter::InstanceMethods
 
-  # source://websocket-client-simple//lib/websocket-client-simple/client.rb#87
+  # source://websocket-client-simple//lib/websocket-client-simple/client.rb#88
   def close; end
 
   # @return [Boolean]
   #
-  # source://websocket-client-simple//lib/websocket-client-simple/client.rb#103
+  # source://websocket-client-simple//lib/websocket-client-simple/client.rb#104
   def closed?; end
 
   # source://websocket-client-simple//lib/websocket-client-simple/client.rb#16
@@ -57,12 +57,14 @@ class WebSocket::Client::Simple::Client
 
   # @return [Boolean]
   #
-  # source://websocket-client-simple//lib/websocket-client-simple/client.rb#99
+  # source://websocket-client-simple//lib/websocket-client-simple/client.rb#100
   def open?; end
 
-  # source://websocket-client-simple//lib/websocket-client-simple/client.rb#72
+  # source://websocket-client-simple//lib/websocket-client-simple/client.rb#73
   def send(data, opt = T.unsafe(nil)); end
 
+  # Returns the value of attribute thread.
+  #
   # source://discordrb/3.5.0/lib/discordrb/websocket.rb#11
   def thread; end
 
