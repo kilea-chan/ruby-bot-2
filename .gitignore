@@ -1,5 +1,5 @@
 config.yml
-rubybot.db
+rubybot.db*
 
 *.gem
 *.rbc

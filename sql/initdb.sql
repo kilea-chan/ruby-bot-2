@@ -1,4 +1,4 @@
-CREATE TABLE message_cache (
+CREATE TABLE IF NOT EXISTS message_cache (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	message_id int8 NULL,
 	channel_id int8 NULL,
@@ -9,14 +9,20 @@ CREATE TABLE message_cache (
 	attachments varchar(2000) NULL
 );
 
-CREATE TABLE event_log_channels (
+CREATE TABLE IF NOT EXISTS event_log_channels (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	server_id int8 NOT NULL,
 	channel_id int8 NOT NULL
 );
 
-CREATE TABLE event_log_blacklist_channels (
+CREATE TABLE IF NOT EXISTS event_log_blacklist_channels (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	server_id int8 NOT NULL,
 	channel_id int8 NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS self_roles_blacklist (
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	server_id int8 NOT NULL,
+	role_id int8 NOT NULL
 );

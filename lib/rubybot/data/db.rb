@@ -25,6 +25,11 @@ module RubyBot
       self.table_name = 'event_log_blacklist_channels'
     end
 
+    # Roles to be ignored
+    class SelfRolesBlacklist < ActiveRecord::Base
+      self.table_name = 'self_roles_blacklist'
+    end
+
     # rubocop:disable Metrics/ParameterLists
     def self.cache_message(message_id, channel_id, server_id, user_id, message_time, content, attachments)
       MessageCache.create(
@@ -69,6 +74,18 @@ module RubyBot
 
     def self.remove_log_blacklist_channel(server_id, channel_id)
       EventLogBlacklistChannels.delete_by(server_id:, channel_id:)
+    end
+
+    def self.find_self_roles_blacklist_roles(server_id)
+      SelfRolesBlacklist.where(server_id:)
+    end
+
+    def self.save_self_roles_blacklist_role(server_id, role_id)
+      SelfRolesBlacklist.create(server_id:, role_id:)
+    end
+
+    def self.remove_self_roles_blacklist_role(server_id, role_id)
+      SelfRolesBlacklist.delete_by(server_id:, role_id:)
     end
   end
 end
