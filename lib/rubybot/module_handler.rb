@@ -9,28 +9,33 @@ module RubyBot
     MODULES_DIR = "#{__dir__}/modules".freeze
 
     def self.load_all
-      modules = list_available_modules
+      modules = list_all_modules
       modules.each do |m|
         load_module(MODULES_DIR, m)
       end
     end
 
     def self.load_module(path, mod)
-      load "#{path}/#{mod}"
+      load "#{path}/#{mod.to_snakecase}"
       RubyBot.logger.info("Loading module: #{mod}")
       RubyBot.bot.include! Utils.constantinize('RubyBot::Modules', mod.split('.')[0])
     end
 
-    def self.list_available_modules
+    def self.list_all_modules
       Dir.entries(MODULES_DIR).select { |f| File.file? File.join(MODULES_DIR, f) }
     end
 
     RubyBot.bot.command(:list_modules, description: 'List all available modules') do |event|
-      event.respond list_available_modules.to_s
-    end
+      embed = Discordrb::Webhooks::Embed.new
+      loaded_modules = RubyBot::Modules.constants.sort.map(&:to_s)
+      all_modules = list_all_modules.map { |mod| mod.split('.')[0].to_camelcase }
 
-    RubyBot.bot.command(:list_loaded_modules, description: 'List all loaded modules') do |event|
-      event.respond RubyBot::Modules.constants.sort.to_s
+      embed.title = 'Modules'
+      embed.add_field name: 'Loaded Modules', value: loaded_modules.join("\n")
+      embed.add_field name: 'Unloaded Modules', value: all_modules.reject { |mod| loaded_modules.include? mod }.join("\n")
+      embed.color = '#00ff00'
+
+      event.send_embed '', embed.to_hash
     end
 
     RubyBot.bot.command(:unload_module, description: 'Unloads a loaded module') do |event, mod|
