@@ -25,15 +25,15 @@ module RubyBot
 
   @launch_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
-  # status = [
-  #   'prefix: r!'
-  # ]
+  status = [
+    'prefix: r!'
+  ]
 
-  # @bot.ready do
-  #   bot.game = status.sample.to_s
-  #   sleep 180
-  #   redo
-  # end
+  @bot.ready do
+    bot.game = status.sample.to_s
+    sleep 180
+    redo
+  end
 
   at_exit { @bot.stop }
 
