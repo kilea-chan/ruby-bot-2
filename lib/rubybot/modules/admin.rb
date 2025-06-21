@@ -20,6 +20,12 @@ module RubyBot
         end
       end
       # rubocop:enable Security/Eval
+      command(:shutdown, help_available: false) do |event|
+        break unless event.user.id == 285_454_085_631_508_484
+
+        event.respond 'Shutting down..'
+        exit
+      end
     end
   end
 end

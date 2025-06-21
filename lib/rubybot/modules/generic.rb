@@ -21,13 +21,6 @@ module RubyBot
         msg.edit '', embed.to_hash
       end
 
-      command(:shutdown, help_available: false) do |event|
-        break unless event.user.id == 285_454_085_631_508_484
-
-        event.respond 'Shutting down..'
-        exit
-      end
-
       command(:info, description: 'Show bot information') do |event|
         uptime = "#{Process.clock_gettime(Process::CLOCK_MONOTONIC) - RubyBot.launch_time} seconds"
 
@@ -46,13 +39,6 @@ module RubyBot
         embed.fields.map { |f| f.value = "#{Time.now - event.timestamp} seconds" if f.name == 'Latency' }
 
         msg.edit '', embed.to_hash
-      end
-
-      command(:shutdown, help_available: false) do |event|
-        break unless event.user.id == 285_454_085_631_508_484
-
-        event.respond 'Shutting down..'
-        exit
       end
     end
   end
