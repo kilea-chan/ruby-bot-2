@@ -11,7 +11,7 @@ module RubyBot
 
       # rubocop:disable Security/Eval
       command(:eval, help_available: false) do |event, *arg|
-        break unless event.user.id == 285_454_085_631_508_484
+        break unless event.user.id == RubyBot.config['admin_id']
 
         begin
           eval arg.join(' ')
@@ -21,7 +21,7 @@ module RubyBot
       end
       # rubocop:enable Security/Eval
       command(:shutdown, help_available: false) do |event|
-        break unless event.user.id == 285_454_085_631_508_484
+        break unless event.user.id == RubyBot.config['admin_id']
 
         event.respond 'Shutting down..'
         exit

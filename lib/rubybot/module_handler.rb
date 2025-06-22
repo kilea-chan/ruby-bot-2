@@ -35,7 +35,7 @@ module RubyBot
       RubyBot::Modules.constants.sort.map(&:to_s)
     end
 
-    RubyBot.bot.command(:modules, description: 'List all available modules') do |event|
+    RubyBot.bot.command(:modules, description: 'List all modules') do |event|
       embed = Discordrb::Webhooks::Embed.new
       loaded_modules = list_loaded_modules
       all_modules = list_all_modules.map { |mod| mod.split('.')[0].pascal_case }
@@ -47,7 +47,9 @@ module RubyBot
       event.send_embed '', embed.to_hash
     end
 
-    RubyBot.bot.command(:unload, description: 'Unloads a loaded module') do |event, mod|
+    RubyBot.bot.command(:unload, description: 'Unloads a loaded module', help_available: false) do |event, mod|
+      break unless event.user.id == RubyBot.config['admin_id']
+
       # Removing all defined commands before removing the module itself
       RubyBot::Modules.const_get(mod).commands.each_key do |command|
         RubyBot.bot.remove_command(command)
@@ -56,7 +58,9 @@ module RubyBot
       event.respond "Unloaded module: #{mod}"
     end
 
-    RubyBot.bot.command(:reload, description: 'Reloads a module') do |event, mod|
+    RubyBot.bot.command(:reload, description: 'Reloads a module', help_available: false) do |event, mod|
+      break unless event.user.id == RubyBot.config['admin_id']
+
       case mod
       when 'all'
         load_modules(list_all_modules)

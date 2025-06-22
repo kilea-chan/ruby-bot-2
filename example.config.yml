@@ -4,6 +4,7 @@ client_id: myClientId
 prefix: r!
 ignore_bots: yes
 advanced_functionality: true
+admin_id: myUserId
 # See ActiveRecord documentation for configuration
 database:
   # Supported are: mysql, postgres, sqlite3 and trilogy
