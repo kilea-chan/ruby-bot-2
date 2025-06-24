@@ -30,6 +30,11 @@ module RubyBot
       self.table_name = 'self_roles_blacklist'
     end
 
+    # Modlues table
+    class Modules < ActiveRecord::Base
+      self.table_name = 'modules'
+    end
+
     # rubocop:disable Metrics/ParameterLists
     def self.cache_message(message_id, channel_id, server_id, user_id, message_time, content, attachments)
       MessageCache.create(
@@ -86,6 +91,22 @@ module RubyBot
 
     def self.remove_self_roles_blacklist_role(server_id, role_id)
       SelfRolesBlacklist.delete_by(server_id:, role_id:)
+    end
+
+    def self.find_modules_by_status(enabled)
+      Modules.where(enabled:)
+    end
+
+    def self.find_module(module_name)
+      Modules.find_by(module_name:)
+    end
+
+    def self.find_modules
+      Modules.all
+    end
+
+    def self.save_module(mod)
+      mod.save
     end
   end
 end

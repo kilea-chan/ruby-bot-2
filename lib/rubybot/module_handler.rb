@@ -6,11 +6,16 @@ module RubyBot
   module ModuleHandler
     require 'lucky_case/string'
     require_relative 'utils'
+    require_relative 'data/db'
 
     MODULES_DIR = "#{__dir__}/modules".freeze
 
     def self.load_all
       load_modules(list_all_modules)
+    end
+
+    def self.load_enabled
+      load_modules(list_enabled_modules)
     end
 
     def self.load_modules(modules)
@@ -31,6 +36,10 @@ module RubyBot
       Dir.entries(MODULES_DIR).select { |f| File.file? File.join(MODULES_DIR, f) }
     end
 
+    def self.list_enabled_modules
+      RubyBot::DB.find_modules_by_status(true).map(&:module_name)
+    end
+
     def self.list_loaded_modules
       RubyBot::Modules.constants.sort.map(&:to_s)
     end
@@ -39,10 +48,17 @@ module RubyBot
       embed = Discordrb::Webhooks::Embed.new
       loaded_modules = list_loaded_modules
       all_modules = list_all_modules.map { |mod| mod.split('.')[0].pascal_case }
+      enabled_modules = list_enabled_modules
+
+      module_list = all_modules.map do |m|
+        { name: m, enabled: (enabled_modules.include?(m) ? '✅' : '❌'), loaded: (loaded_modules.include?(m) ? '✅' : '❌') }
+      end
+
       embed.title = 'Modules'
-      embed.add_field name: 'Loaded Modules', value: loaded_modules.join("\n")
-      embed.add_field name: 'Unloaded Modules', value: all_modules.reject { |mod| loaded_modules.include? mod }.join("\n")
       embed.color = '#00ff00'
+      embed.add_field name: 'Name', value: module_list.map { |val| val[:name] }.join("\n"), inline: true
+      embed.add_field name: 'Enabled', value: module_list.map { |val| val[:enabled] }.join("\n"), inline: true
+      embed.add_field name: 'Loaded', value: module_list.map { |val| val[:loaded] }.join("\n"), inline: true
 
       event.send_embed '', embed.to_hash
     end
@@ -72,6 +88,38 @@ module RubyBot
         load_module(MODULES_DIR, mod)
         event.respond "Reloaded module #{mod} in: #{Time.now - event.timestamp} seconds."
       end
+    end
+
+    RubyBot.bot.command(:enable, description: 'Enables a module', help_available: false) do |event, mod|
+      break unless event.user.id == RubyBot.config['admin_id']
+
+      db_mod = RubyBot::DB.find_module(mod)
+
+      if db_mod.nil?
+        new_mod = RubyBot::DB::Modules.new(module_name: mod, enabled: true)
+        RubyBot::DB.save_module(new_mod)
+      else
+        db_mod.enabled = true
+        RubyBot::DB.save_module(db_mod)
+      end
+
+      event.respond "Enabled module: #{mod}"
+    end
+
+    RubyBot.bot.command(:disable, description: 'Disables a module', help_available: false) do |event, mod|
+      break unless event.user.id == RubyBot.config['admin_id']
+
+      db_mod = RubyBot::DB.find_module(mod)
+
+      if db_mod.nil?
+        new_mod = RubyBot::DB::Modules.new(module_name: mod, enabled: false)
+        RubyBot::DB.save_module(new_mod)
+      else
+        db_mod.enabled = false
+        RubyBot::DB.save_module(db_mod)
+      end
+
+      event.respond "Disabled module: #{mod}"
     end
   end
 end

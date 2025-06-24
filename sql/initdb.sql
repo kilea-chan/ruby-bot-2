@@ -26,3 +26,9 @@ CREATE TABLE IF NOT EXISTS self_roles_blacklist (
 	server_id int8 NOT NULL,
 	role_id int8 NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS modules (
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	module_name varchar(4000) NOT NULL,
+	enabled int2 NOT NULL
+);

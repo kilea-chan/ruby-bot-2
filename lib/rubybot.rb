@@ -26,7 +26,7 @@ module RubyBot
   @launch_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
   status = [
-    'prefix: r!'
+    "prefix: #{@config['prefix']}"
   ]
 
   @bot.ready do
@@ -46,7 +46,7 @@ require_relative 'rubybot/version'
 require_relative 'rubybot/module_handler'
 require_relative 'rubybot/event_handler'
 
-RubyBot::ModuleHandler.load_all
+RubyBot::ModuleHandler.load_enabled
 RubyBot::EventHandler.load_all
 
 RubyBot.run!
