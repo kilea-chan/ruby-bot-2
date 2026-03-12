@@ -35,6 +35,11 @@ module RubyBot
       self.table_name = 'modules'
     end
 
+    # Strings that are forbidden
+    class ForbiddenStrings < ActiveRecord::Base
+      self.table_name = 'forbidden_strings'
+    end
+
     # rubocop:disable Metrics/ParameterLists
     def self.cache_message(message_id, channel_id, server_id, user_id, message_time, content, attachments)
       MessageCache.create(
@@ -107,6 +112,14 @@ module RubyBot
 
     def self.save_module(mod)
       mod.save
+    end
+
+    def self.find_forbidden_strings(server_id)
+      ForbiddenStrings.where(server_id:)
+    end
+
+    def self.save_forbidden_strings(server_id, text)
+      ForbiddenStrings.create(server_id:, text:)
     end
   end
 end

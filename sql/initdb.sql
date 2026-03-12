@@ -32,3 +32,9 @@ CREATE TABLE IF NOT EXISTS modules (
 	module_name varchar(4000) NOT NULL,
 	enabled int2 NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS forbidden_strings (
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	server_id int8 NOT NULL,
+	text varchar(4000) NOT NULL
+);
