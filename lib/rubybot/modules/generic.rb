@@ -40,6 +40,19 @@ module RubyBot
 
         msg.edit '', embed.to_hash
       end
+
+      command(:warm, description: 'Warms a user') do |event, user|
+        validated_user = check_user(event, user)
+        event.respond "<@#{validated_user.id}> feels warmed"
+      end
+
+      def self.check_user(event, user)
+        if user.match(/<@[0-9]*>/)
+          event.bot.parse_mention(user)
+        elsif user.match(/^[0-9]*$/)
+          event.bot.user(user.to_i) unless user.to_i >= 9_223_372_036_854_775_807
+        end
+      end
     end
   end
 end
